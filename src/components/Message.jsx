@@ -90,7 +90,7 @@ const handleAnswerSubmit = async () => {
 
             {/* Modal Buttons */}
             <div className="modal-buttons">
-              <button className='cancelBtn' onClick={() => setShowModal(false)}>Cancel</button>
+              <button className='cancelBtn' onClick={() => {setShowModal(false);setAnswer("");}}>Cancel</button>
               <button className="submitBtn" onClick={handleAnswerSubmit}>Submit</button>
             </div>
           </div>
