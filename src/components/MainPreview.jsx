@@ -30,7 +30,7 @@ const MainPreview = ({ selectedShow }) => {
 
     // Ensure selectedShow and its properties exist
     if (!selectedShow || !selectedShow.coverImage || !selectedShow.videoUrl) {
-        return <div className="main-preview">Loading...</div>; // Show a fallback if data isn't ready
+        return <div className="main-preview"><div className="loading"><my-precious color="cyan"></my-precious></div></div>; // Show a fallback if data isn't ready
     }
 
     return (

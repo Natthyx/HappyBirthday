@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { db } from "../firebase";
 import { useState, useEffect } from "react";
 import { getDocs, collection, query, orderBy } from "firebase/firestore";
+import { ring } from 'ldrs'
+ring.register('my-precious')
 
 const NoteList = () => {
   const [notes, setNotes] = useState([]);  // State for storing notes
@@ -52,7 +54,7 @@ const NoteList = () => {
 
     // Cleanup listener on unmount
     return () => window.removeEventListener('resize', updateNotesPerPage);
-  }, []);
+  }, [q]);
 
   // Calculate indices for pagination
   const indexOfLastNote = currentPage * notesPerPage;
@@ -66,7 +68,7 @@ const NoteList = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
-    return <p>Loading notes...</p>;  // Display a loading message while fetching
+    return <div className="loading"><my-precious color="cyan"></my-precious></div>; 
   }
 
   return (

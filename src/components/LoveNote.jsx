@@ -65,7 +65,7 @@ const LovePage = () => {
     }, [note]);
 
     if (loading) {
-        return <p>Loading note...</p>;  // Display a loading message while fetching
+        return <p><div className="loading"><my-precious color="cyan"></my-precious></div></p>;  // Display a loading message while fetching
     }
 
     if (!note) {
