@@ -679,14 +679,14 @@
   align-items: center;
 }
 .overlay-text {
-  padding-top: 60px;
+  padding-top: 50px;
   padding-left: 20px;
   width: 90%;
   height: 50vh;
   color: white;
   position: absolute;
   left: 0%;
-  top: 20%;
+  top: 15%;
   
 }
 iframe{
@@ -694,7 +694,7 @@ iframe{
   height: 100%;
 }
 .main-preview h1 {
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 400;
   letter-spacing: .5px;
 }
