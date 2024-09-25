@@ -525,6 +525,24 @@
   font-size: 1rem;
   text-align: center;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  background-color: #f0f0f0;
+  border: none;
+  margin: 0 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.pagination-btn.active {
+  background-color: #007bff;
+  color: white;
+}
 .pagination-side button{
   padding: 10px;
   background-color: #1b1d1f;
@@ -604,7 +622,7 @@
   }
 
   .note-list {
-      grid-template-columns: 1fr; /* Display notes in a single column on mobile */
+    grid-template-columns: repeat(1, 1fr); /* Display notes in a single column on mobile */
   }
 
   .ourmemories {

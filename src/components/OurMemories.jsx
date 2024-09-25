@@ -1,27 +1,11 @@
 import { useState, useEffect } from 'react';
 import MainPreview from './MainPreview';
 import ShowCard from './ShowCard';
-// import thumbnail from '../assets/pic1.jpg'; 
-// import thumbnail1 from '../assets/pic2.jpg'; // Placeholder image
-// import coverImage1 from '../assets/image.png';  // Placeholder cover image
-// import coverImage2 from '../assets/endwithus.png';
-// import samplevideo from '../assets/Sample.mp4'  // Another cover image
 import { IoArrowBackCircle } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import {db} from '../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
-// List of shows with their respective cover images
-// const shows = [
-//     { id: 1, image: thumbnail, title: 'Show 1', description: 'Description for Show 1 Description for Show 1 Description for Show 1 Description for Show 1 Description for Show 1', coverImage: coverImage1, videoUrl: samplevideo },
-//     { id: 2, image: thumbnail1, title: 'Show 2', description: 'Description for Show 2', coverImage: coverImage2, videoUrl: samplevideo },
-//     { id: 3, image: thumbnail, title: 'Show 3', description: 'Description for Show 3', coverImage: coverImage1, videoUrl: samplevideo },
-//     { id: 4, image: thumbnail, title: 'Show 4', description: 'Description for Show 4', coverImage: coverImage2, videoUrl: samplevideo },
-//     { id: 5, image: thumbnail1, title: 'Show 5', description: 'Description for Show 5', coverImage: coverImage1, videoUrl: samplevideo },
-//     { id: 6, image: thumbnail, title: 'Show 6', description: 'Description for Show 6', coverImage: coverImage2, videoUrl: samplevideo },
-//     { id: 7, image: thumbnail1, title: 'Show 7', description: 'Description for Show 7', coverImage: coverImage1, videoUrl: samplevideo },
-//     { id: 8, image: thumbnail, title: 'Show 8', description: 'Description for Show 8', coverImage: coverImage2, videoUrl: samplevideo },
-//     // Add more shows as needed
-// ];
+
 
 const Ourmemories = () => {
     const [shows, setShows] = useState([]);
