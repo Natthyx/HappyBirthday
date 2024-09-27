@@ -1,43 +1,26 @@
 import NoteCard from "./NoteCard";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-import { db } from "../firebase";
-import { useState, useEffect } from "react";
-import { getDocs, collection, query, orderBy } from "firebase/firestore";
+import { useState, useContext, useEffect } from "react";
+import FirestoreContext from '../context/FirestoreContext';
 import { ring } from 'ldrs'
 ring.register('my-precious')
 
 const NoteList = () => {
-  const [notes, setNotes] = useState([]);  // State for storing notes
+  const { notes } = useContext(FirestoreContext);  // Use context to get notes
   const [loading, setLoading] = useState(true);  // Loading state
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [notesPerPage, setNotesPerPage] = useState(12); // Notes per page (12 for desktop)
 
-  const messagesCollection = collection(db, "notes");
-
-  // Create a query to order by 'index' field in ascending order
-  const q = query(messagesCollection, orderBy("index", "asc"));
-
-  // Fetch notes from Firestore on component mount
+  // Fetch data from context and set loading state
   useEffect(() => {
-    const fetchNotes = async () => {
-      try {
-        const querySnapshot = await getDocs(q);  // Fetch notes from Firestore
-        const notesData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setNotes(notesData);
-        setLoading(false);  // Set loading to false after fetching
-      } catch (error) {
-        console.error("Error fetching notes: ", error);
-        setLoading(false);  // In case of an error
-      }
-    };
+    if (notes.length > 0) {
+      setLoading(false);
+    }
+  }, [notes]);
 
-    fetchNotes();
-
-    // Update notesPerPage based on screen size
+  // Update notesPerPage based on screen size
+  useEffect(() => {
     const updateNotesPerPage = () => {
       if (window.innerWidth <= 768) {
         setNotesPerPage(2); // For mobile: 1 column with 4 rows
@@ -46,15 +29,12 @@ const NoteList = () => {
       }
     };
 
-    // Check the screen size when the component mounts
     updateNotesPerPage();
     
-    // Add event listener to detect screen resize
     window.addEventListener('resize', updateNotesPerPage);
 
-    // Cleanup listener on unmount
     return () => window.removeEventListener('resize', updateNotesPerPage);
-  }, [q]);
+  }, []);
 
   // Calculate indices for pagination
   const indexOfLastNote = currentPage * notesPerPage;

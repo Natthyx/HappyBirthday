@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heartshape from '../assets/heartshape.png';
-import { fetchCorrectAnswer } from "../firestoreService";  // Import the service to fetch the correct answer
 import { getAuth, signInAnonymously } from "firebase/auth";
+import FirestoreContext from '../context/FirestoreContext';
 import birthdaywishes from "../birthdaywishes.json";
 
 const Message = () => {
+  const { correctAnswer } = useContext(FirestoreContext);
   const [showModal, setShowModal] = useState(false);   // To control modal visibility
   const [selectedRoute, setSelectedRoute] = useState('');  // To store the selected route
   const [answer, setAnswer] = useState('');  // To store the user's answer
@@ -27,18 +28,17 @@ const Message = () => {
 // Function to handle modal submission
 const handleAnswerSubmit = async () => {
   try {
-    const correctAnswer = await fetchCorrectAnswer(); // Get the correct answer from Firestore
     if (answer.toLowerCase() === correctAnswer) {
-      await signInAnonymously(auth);  // Sign in anonymously on correct answer
-      setShowModal(false);  // Close the modal
-      navigate(selectedRoute);  // Navigate to the route if the answer is correct
-      setAnswer("");  // Reset the answer
+      await signInAnonymously(auth);
+      setShowModal(false);
+      navigate(selectedRoute);
+      setAnswer('');
     } else {
-      setError("That's not the right answer, try again!");  // Display an error message
-      setAnswer("");
+      setError('That\'s not the right answer, try again!');
+      setAnswer('');
     }
   } catch (err) {
-    setError("Error fetching the correct answer.",err);
+    setError('Error submitting the answer.', err);
   }
 };
   // Function to open modal and set the selected route

@@ -5,10 +5,11 @@ import Flower from './components/Flower.jsx';
 import LoveScroll from './components/LoveNote.jsx';
 import NoteList from './components/NoteList.jsx';
 import OurMemories from './components/OurMemories.jsx';
+import { FirestoreProvider } from './context/FirestoreContext';
 
 function App() {
   return (
-  
+    <FirestoreProvider>
           <Router>
             <div className="App">
                 <Routes>
@@ -20,7 +21,7 @@ function App() {
                 </Routes>
             </div>
         </Router>
-
+        </FirestoreProvider>
   );
 }
 

@@ -1,40 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import scrollImage from '../assets/ancient-scoll.png';
 import { useParams, Link } from "react-router-dom";
 import { IoArrowBackCircle } from "react-icons/io5";
-import { doc, getDoc } from "firebase/firestore";  // Firestore imports
-import { db } from "../firebase";  // Firestore instance
+import FirestoreContext from '../context/FirestoreContext';  // Import context
 import rose from '../assets/rose.png';
 
 const LovePage = () => {
     const { id } = useParams();
+    const { notes } = useContext(FirestoreContext);  // Get notes from context
     const [note, setNote] = useState(null);  // State for the note data
     const [loading, setLoading] = useState(true);  // Loading state
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [displayText, setDisplayText] = useState('');
 
-    // Fetch the note data from Firestore
+    // Find the note based on the id from the URL
     useEffect(() => {
-        const fetchNote = async () => {
-            try {
-                const noteDoc = await getDoc(doc(db, "notes", id));  // Fetch the note from Firestore
-                if (noteDoc.exists()) {
-                    setNote(noteDoc.data());
-                    setLoading(false);
-                } else {
-                    console.log("No such document!");
-                    setLoading(false);
-                }
-            } catch (error) {
-                console.error("Error fetching the note: ", error);
-                setLoading(false);
-            }
-        };
+        const selectedNote = notes.find((n) => n.id === id);
+        if (selectedNote) {
+            setNote(selectedNote);
+            setLoading(false);
+        } else {
+            console.log("No such document!");
+            setLoading(false);
+        }
+    }, [id, notes]);
 
-        fetchNote();
-    }, [id]);
-
-    // Typing effect
+    // Typing effect for the note's text
     useEffect(() => {
         if (note && note.text) {
             let index = 0;
@@ -65,7 +56,7 @@ const LovePage = () => {
     }, [note]);
 
     if (loading) {
-        return <p><div className="loading"><my-precious color="cyan"></my-precious></div></p>;  // Display a loading message while fetching
+        return <div className="loading"><my-precious color="cyan"></my-precious></div>;  // Display a loading message while fetching
     }
 
     if (!note) {
@@ -90,7 +81,6 @@ const LovePage = () => {
                 <img src={note.img[currentImageIndex]} alt="Love pictures" className="love-images" />
             </div>
             <div className="image-carousel"></div>
-            
             {/* Scroll with Text */}
             <div className="scroll-container">
                 <img className="scroll-image" src={scrollImage} alt="Ancient Scroll" />

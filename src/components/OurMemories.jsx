@@ -1,37 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import MainPreview from './MainPreview';
 import ShowCard from './ShowCard';
 import { IoArrowBackCircle } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-import {db} from '../firebase.js';
-import { collection, getDocs } from 'firebase/firestore';
+// import {db} from '../firebase.js';
+// import { collection, getDocs } from 'firebase/firestore';
+import FirestoreContext from '../context/FirestoreContext';
 
 
 const Ourmemories = () => {
-    const [shows, setShows] = useState([]);
+    const { shows } = useContext(FirestoreContext);
+    //const [show, setShows] = useState([]);
     const showsPerPage = 4; // Number of shows to display per page
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedShow, setSelectedShow] = useState(shows[0]); // Initially select the first show
     
+    const currentShows = shows.slice((currentPage - 1) * showsPerPage, currentPage * showsPerPage);
+    // useEffect(() => {
+    //     const fetchShows = async () => {
+    //         const querySnapshot = await getDocs(collection(db, "show"));  // Fetch data from Firestore
+    //         const fetchedShows = querySnapshot.docs.map(doc => ({
+    //             id: doc.id,
+    //             ...doc.data()
+    //         }));
+    //         setShows(fetchedShows);
+    //         console.log(fetchedShows);
+    //         setSelectedShow(fetchedShows[0]); // Initially select the first show
+    //     };
 
-    useEffect(() => {
-        const fetchShows = async () => {
-            const querySnapshot = await getDocs(collection(db, "show"));  // Fetch data from Firestore
-            const fetchedShows = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            setShows(fetchedShows);
-            console.log(fetchedShows);
-            setSelectedShow(fetchedShows[0]); // Initially select the first show
-        };
-
-        fetchShows();
-    }, []);
+    //     fetchShows();
+    // }, []);
     // Calculate the indexes for the current page's shows
-    const indexOfLastShow = currentPage * showsPerPage;
-    const indexOfFirstShow = indexOfLastShow - showsPerPage;
-    const currentShows = shows.slice(indexOfFirstShow, indexOfLastShow);
+    //const indexOfLastShow = currentPage * showsPerPage;
+    //const indexOfFirstShow = indexOfLastShow - showsPerPage;
+    //const currentShows = shows.slice(indexOfFirstShow, indexOfLastShow);
 
     // Handler for the Next button
     const handleNext = () => {
